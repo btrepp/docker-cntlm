@@ -5,16 +5,18 @@ if [ $# -ne 4 ]; then
 fi
 
 noproxy_hosts="localhost, 127.0.0.*, 10.*, 192.168.*, *.$2"
-if [ $NOPROXY ]; then
-	noproxy_hosts="$noproxy_hosts, $NOPROXY"
+if [ -n "$NO_PROXY" ]; then
+	noproxy_hosts="$noproxy_hosts, $NO_PROXY"
 fi
 
-echo UserName $1 >> /etc/cntlm.ini
-echo Domain $2 >> /etc/cntlm.ini
-echo PassNTLMv2 $3 >> /etc/cntlm.ini
-echo Proxy $4 >> /etc/cntlm.ini
-echo NoProxy $noproxy_hosts >> /etc/cntlm.ini
-echo Gateway yes >> /etc/cntlm.ini
-echo Listen 3128 >> /etc/cntlm.ini
+cat << EOF > /etc/cntlm.conf
+UserName $1
+Domain $2
+PassNTLMv2 $3
+Proxy $4
+NoProxy $noproxy_hosts
+Gateway yes
+Listen 3128
+EOF
 
-exec /usr/sbin/cntlm -f -U cntlm -c /etc/cntlm.ini
+exec /usr/sbin/cntlm -f -U cntlm -c /etc/cntlm.conf
