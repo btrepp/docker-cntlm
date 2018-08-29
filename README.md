@@ -8,6 +8,8 @@ actually tunneled through.
 
 container->redsocks->ctnlm->upstream
 
+For SSH you may also be interested in [corkscrew](https://github.com/bryanpkc/corkscrew)
+
 ## Usage
 
 Simple usage is 
@@ -15,6 +17,9 @@ Simple usage is
 `docker run --rm -p 3128:3128 btrepp/cntlm user.name domain NTVLMv2Hash upstream_proxy:port`
 
 This will create an unathenticated proxy on the host running at 3128
+
+By default cntlm will run with NoProxy localhost, 127.0.0.*, 10.*, 192.168.*, *.$2
+If the env var NOPROXY is set, it gets added to this list
 
 ## NTLMv2 Hash
 
