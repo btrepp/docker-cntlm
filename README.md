@@ -1,4 +1,4 @@
-#Cntlm Docker
+# Cntlm Docker
 
 This is a simple dockerfile that wraps up cntlm into debian. It will set up a open proxy, that uses NTLMv2 to
 authenticate upstream. The main use case is to get a simple proxy setup that plays nice with windows networks.
@@ -8,7 +8,9 @@ actually tunneled through.
 
 container->redsocks->ctnlm->upstream
 
-##Usage
+For SSH you may also be interested in [corkscrew](https://github.com/bryanpkc/corkscrew)
+
+## Usage
 
 Simple usage is 
 
@@ -16,7 +18,10 @@ Simple usage is
 
 This will create an unathenticated proxy on the host running at 3128
 
-##NTLMv2 Hash
+By default cntlm will run with NoProxy localhost, 127.0.0.*, 10.*, 192.168.*, *.$2
+If the env var NOPROXY is set, it gets added to this list
+
+## NTLMv2 Hash
 
 By default I've only set this up to accept Hashed passwords. cntlm supports actual passwords, but 
 that is left up to you to figure out. A script exists in the images that will help you get the hash
@@ -27,6 +32,6 @@ This will ask you for your password and attempt to use the upstream proxy to get
 succeeds it will print a PassNTLMv2 line, use this hash above when launching the container.
 
 
-##Contributing
+## Contributing
 
 This was a quick hack to get together as nothing currently existed on the registry. Feel free to fork it and send pull requests
